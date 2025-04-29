@@ -1,4 +1,4 @@
-from typing import Optional, List, Union
+from typing import Optional, List, Union, Any
 import json
 
 
@@ -15,24 +15,24 @@ class Message(dict):
         return msg
 
     @classmethod
-    def assistant(cls, content: Optional[str] = None, tool_calls: Optional[List[str]] = None) -> "Message":
+    def assistant(cls, content: Optional[str] = None, tool_calls: Optional[List[Any]] = None) -> "Message":
         msg = cls(role="assistant")
         msg["content"] = content if content else ""
-
         if tool_calls:
             msg["tool_calls"] = tool_calls
         return msg
 
     @classmethod
-    def tool_response(cls, response: dict) -> "Message":
+    def tool_response(cls, content: Optional[str] = None, tool_calls: Optional[List[Any]] = None) -> "Message":
         """ Create a tool call message """
-        content = response.get("content", "")
-        tool_calls = response.get("tool_calls", [])
+        formatted_tool_calls = [
+            {"id": tool_call.id, "function": tool_call.function.model_dump(), "type": "function"} for tool_call in tool_calls
+        ]
 
         return cls(
             role="assistant",
             content=content,
-            tool_calls=tool_calls
+            tool_calls=formatted_tool_calls
         )
 
     @classmethod

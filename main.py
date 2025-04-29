@@ -11,7 +11,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
-google_key = os.getenv("GOOGLE_API_KEY")
+google_search_key = os.getenv("GOOGLE_SEARCH_API_KEY")
+google_engine_id = os.getenv("GOOGLE_ENGINE_ID")
 
 
 def image_to_base64(path: str) -> str:
@@ -24,7 +25,7 @@ async def main():
               api_key=api_key)
 
     searchTool = GoogleSearchTool()
-    searchTool.set_api_key(google_key)
+    searchTool.set_api_key(google_search_key, google_engine_id)
 
     react = ReActAgent("Manus",
                        "A helpful agent",

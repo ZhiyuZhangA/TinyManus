@@ -43,9 +43,8 @@ class BaseAgent(ABC):
         if role == "user":
             message = Message.user(content, base64_image)
         elif role == "assistant":
-            message = Message.assistant(content, tool_calls)
-        #elif role == "tool":
-            #message = Message.tool_response(tool_calls, content) # 有bug，函数调用有问题，需先解决tool_call的数据结构
+            message = Message.assistant(content, tool_calls=tool_calls)
+            print(tool_calls)
 
         self.memory.append(message)
 
