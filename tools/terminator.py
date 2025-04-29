@@ -1,10 +1,10 @@
 import weakref
 from tools.base_tool import BaseTool
-from typing import Optional, Dict
+from typing import Dict
 from pydantic import PrivateAttr
 
 _TERMINATE_DESCRIPTION = (
-    "Use this tool to formally terminate the current task execution. "
+    "Use this tool to deliver the final answer to the user and formally terminates the reasoning process. "
     "You should only call this tool when you are confident that the objective has been achieved "
     "or no further action can meaningfully improve the outcome."
 )
@@ -18,16 +18,17 @@ class Terminator(BaseTool):
     parameters: Dict = {
         "type": "object",
         "properties": {
-            "reason": {
+            "answer": {
                 "type": "string",
                 "description": "Optional detailed reason for why the task was terminated."
             }
         },
+        "required": ["answer"]
     }
 
-    def execute(self, reason: Optional[str] = None):
+    def execute(self, answer: str):
         agent = self._agent_ref()
         if agent is None:
             raise RuntimeError("Agent reference lost.")
-        agent.terminate(reason)
-        return "Successfully terminated."
+        agent.terminate(answer)
+        return answer
