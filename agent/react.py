@@ -107,16 +107,14 @@ class ReActAgent(BaseAgent):
                 logger.error(f"🚨 Error executing tool '{tool_name}' for {self.name}: {str(e)}")
                 continue
 
-    def terminate(self, reason: Optional[str] = None) -> None:
+    def terminate(self, answer: str) -> None:
         """
         terminate the agent by setting its state to SUCCEED.
-        Optionally record a termination reason into memory.
+        Deliver a final answer.
         """
         self.state = AgentState.SUCCEED
 
         termination_msg = f"✅ Agent '{self.name}' has successfully terminated."
-        if reason:
-            termination_msg += f" Reason: {reason}"
 
         logger.info(termination_msg)
 

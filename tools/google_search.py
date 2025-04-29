@@ -1,6 +1,6 @@
 from tools.base_tool import BaseTool
 from pydantic import PrivateAttr
-from typing import Optional, Dict
+from typing import Dict
 import httpx
 
 _GOOGLE_SEARCH_DESCRIPTION = (
@@ -27,7 +27,7 @@ class GoogleSearchTool(BaseTool):
                 "description": "The number of results to return from the search query."
             }
         },
-        "required": ["query"],
+        "required": ["query", "num"],
     }
 
     def set_api_key(self, search_api_key: str, engine_id: str):
