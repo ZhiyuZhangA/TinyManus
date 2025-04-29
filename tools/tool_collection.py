@@ -1,5 +1,5 @@
 from typing import List, Dict, Optional
-from tools.base_tool import BaseTool
+from tools.base import BaseTool
 
 
 class ToolCollection:

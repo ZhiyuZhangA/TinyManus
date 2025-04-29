@@ -1,5 +1,5 @@
 import weakref
-from tools.base_tool import BaseTool
+from tools.base import BaseTool
 from typing import Dict
 from pydantic import PrivateAttr
 
@@ -26,7 +26,7 @@ class Terminator(BaseTool):
         "required": ["answer"]
     }
 
-    def execute(self, answer: str):
+    async def execute(self, answer: str):
         agent = self._agent_ref()
         if agent is None:
             raise RuntimeError("Agent reference lost.")

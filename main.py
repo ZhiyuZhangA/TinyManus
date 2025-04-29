@@ -6,6 +6,7 @@ from agent.react import ReActAgent
 from prompt.react_prompt import SYSTEM_PROMPT
 from tools.google_search import GoogleSearchTool
 from dotenv import load_dotenv
+from tools.cmd.shell_tool import ShellTool
 
 
 load_dotenv()
@@ -25,15 +26,16 @@ async def main():
 
     searchTool = GoogleSearchTool()
     searchTool.set_api_key(google_search_key, google_engine_id)
+    shell_tool = ShellTool()
 
     react = ReActAgent("Manus",
                        "A helpful agent",
                        SYSTEM_PROMPT,
-                       10,
+                       15,
                        llm,
-                       [searchTool])
+                       [searchTool, shell_tool])
 
-    await react.run("Please Tell Me what is the name of the first computer in the world using google search")
+    await react.run("Please create a txt document on my laptop's desktop where it describes the first computer in the world.")
 
 if __name__ == "__main__":
     asyncio.run(main())
