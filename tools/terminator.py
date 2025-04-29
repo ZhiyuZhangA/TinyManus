@@ -30,3 +30,4 @@ class Terminator(BaseTool):
         if agent is None:
             raise RuntimeError("Agent reference lost.")
         agent.terminate(reason)
+        return "Successfully terminated."

@@ -61,11 +61,13 @@ class ReActAgent(BaseAgent):
 
         # Log the thought
         logger.info(f"🧠 {self.name}'s Thought: {thought}")
-        if self.tool_calls:
-            logger.info(f"🛠️  Tool Calls Proposed: {[call.function.name for call in self.tool_calls]}")
 
         # Add the tool call message to the history
-        self.add_memory("assistant", thought, self.tool_calls)
+        if self.tool_calls:
+            logger.info(f"🛠️  Tool Calls Proposed: {[call.function.name for call in self.tool_calls]}")
+            self.memory.append(Message.tool_response(thought, self.tool_calls))
+        else:
+            self.add_memory("assistant", thought, self.tool_calls)
 
         return bool(self.tool_calls)
 
