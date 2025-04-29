@@ -1,4 +1,4 @@
-from tools.base_tool import BaseTool
+from tools.base import BaseTool
 from pydantic import PrivateAttr
 from typing import Dict
 import httpx
@@ -34,7 +34,7 @@ class GoogleSearchTool(BaseTool):
         self._api_key = search_api_key
         self._engine_id = engine_id
 
-    def execute(self, query: str, num: int):
+    async def execute(self, query: str, num: int):
         base_urls = "https://www.googleapis.com/customsearch/v1"
         params = {
             'key': self._api_key,

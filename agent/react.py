@@ -4,7 +4,7 @@ from llm import LLM
 from typing import List, Optional
 from memory.memory import Message
 from tools.tool_collection import ToolCollection
-from tools.base_tool import BaseTool
+from tools.base import BaseTool
 from tools.terminator import Terminator
 from logger import logger
 import json
@@ -93,7 +93,7 @@ class ReActAgent(BaseAgent):
                 parsed_args = json.loads(arguments) if isinstance(arguments, str) else arguments
 
                 # Execute the tool
-                result = tool.execute(**parsed_args)
+                result = await tool.execute(**parsed_args)
 
                 # Construct tool message
                 tool_msg = Message.from_tool_result(tool_call, result)

@@ -9,7 +9,7 @@ class BaseTool(BaseModel):
     description: str
     parameters: Dict
 
-    def execute(self, **kwargs):
+    async def execute(self, **kwargs):
         raise NotImplementedError
 
     def to_dict(self) -> Dict:
