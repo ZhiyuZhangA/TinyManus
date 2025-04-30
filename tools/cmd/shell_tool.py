@@ -57,8 +57,9 @@ class ShellTool(BaseTool):
                 await self._session.wait_until_closed()
 
             output = result.get("output", "")
-            error = result.get("error", "")
-            logger.info(f"📤 Output: {output}, ❌ Error: {error}")
+            # error = result.get("error", "")
+            # logger.info(f"📤 Output: {output}, ❌ Error: {error}")
+            logger.info(f"📤 Output: {output}")
             return result
 
         raise RuntimeError("No command is provided!")
