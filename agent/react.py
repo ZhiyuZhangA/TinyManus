@@ -35,11 +35,13 @@ class ReActAgent(BaseAgent):
         terminator._agent_ref = weakref.ref(self)
         self.tool_collection.add_tool(terminator)
 
-    async def step(self):
+    async def step(self) -> str:
         # Terminating Condition: The agent will execute a tool called terminating task to modify its state
         should_act = await self.think()
         if should_act:
-            await self.act()
+            return await self.act()
+        else:
+            return ""
 
     async def think(self) -> bool:
         """
@@ -71,7 +73,7 @@ class ReActAgent(BaseAgent):
 
         return bool(self.tool_calls)
 
-    async def act(self) -> None:
+    async def act(self) -> str:
         """
         Action in react process with function calling
         """
@@ -103,11 +105,13 @@ class ReActAgent(BaseAgent):
 
                 logger.info(f"✅ Executed tool '{tool_name}' for {self.name}, result: {result}")
 
+                return result
+
             except Exception as e:
                 logger.error(f"🚨 Error executing tool '{tool_name}' for {self.name}: {str(e)}")
                 continue
 
-    def terminate(self, answer: str) -> None:
+    def terminate(self) -> None:
         """
         terminate the agent by setting its state to SUCCEED.
         Deliver a final answer.

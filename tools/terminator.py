@@ -30,5 +30,5 @@ class Terminator(BaseTool):
         agent = self._agent_ref()
         if agent is None:
             raise RuntimeError("Agent reference lost.")
-        agent.terminate(answer)
+        agent.terminate()
         return answer
