@@ -120,5 +120,5 @@ Created by [Zhiyu Zhang](https://github.com/ZhiyuZhangA), UC Davis.
 
 ## 🪄 License
 
-MIT License. See [LICENSE](./LICENSE) for details.
+Apache 2.0 License. See [LICENSE](./LICENSE) for details.
 
