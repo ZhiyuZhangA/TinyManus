@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 import asyncio
 import platform
 
-
 class ShellSession(ABC):
     _process: asyncio.subprocess.Process
 
@@ -71,11 +70,11 @@ class PowershellSession(ShellSession):
 
         assert self._process.stdin
         assert self._process.stdout
-        assert self._process.stderr
 
         self._process.stdin.write(
             command.encode() + f"\nWrite-Output '{self._sentinel}'\n".encode()
         )
+
         await self._process.stdin.drain()
 
         output = ""
@@ -92,16 +91,13 @@ class PowershellSession(ShellSession):
             self._timed_out = True
             raise RuntimeError("Powershell command timed out!")
 
-        try:
-            error_bytes = await asyncio.wait_for(self._process.stderr.read(), timeout=1)
-            error = error_bytes.decode("utf-8", errors="ignore").strip()
-        except asyncio.TimeoutError:
-            error = "[stderr empty or not flushed]"
+        # try:
+        #     error_bytes = await asyncio.wait_for(self._process.stderr.read(), timeout=1)
+        #     error = error_bytes.decode("utf-8", errors="ignore").strip()
+        # except asyncio.TimeoutError:
+        #     error = "[stderr empty or not flushed]"
 
-        return {
-                    "output": output.strip(),
-                    "error": error
-                }
+        return {"output": output.strip()}
 
 
 def create_shell_session() -> ShellSession:
