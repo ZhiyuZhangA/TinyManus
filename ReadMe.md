@@ -102,6 +102,7 @@ TinyManus/
 - [ ] Toolchain system enhancements
 - [ ] MCP (Model Context Protocol) support
 - [ ] Multi-agent debate mode with training data generation
+- [ ] Long-term Memory
 - [ ] And More...
 
 ---
