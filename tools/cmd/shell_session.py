@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import asyncio
 import platform
 
+
 class ShellSession(ABC):
     _process: asyncio.subprocess.Process
 

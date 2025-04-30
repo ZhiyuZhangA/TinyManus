@@ -1,6 +1,6 @@
 from memory.memory import WorkingMemory
 from memory.memory import Message
-from typing import Optional, List, Union
+from typing import Optional, List
 from abc import ABC, abstractmethod
 from enum import Enum
 from llm import LLM
@@ -47,7 +47,7 @@ class BaseAgent(ABC):
 
         self.memory.append(message)
 
-    async def run(self, request: str):
+    async def run(self, request: str) -> str:
         self.state = AgentState.RUNNING
         attempt = 0
 
@@ -59,11 +59,11 @@ class BaseAgent(ABC):
         while attempt <= self.max_iters and self.state != AgentState.SUCCEED:
             try:
                 logger.info(f"Executing step [{attempt + 1} / {self.max_iters}]...")
-                await self.step()
+                result = await self.step()
 
                 if self.state == AgentState.SUCCEED:
                     logger.info(f"[{self.name}] Step succeeded on attempt {attempt + 1}")
-                    return self.get_final_result()
+                    return result
 
                 elif self.state == AgentState.RUNNING:
                     logger.info(f"[{self.name}] Step still running on attempt [{attempt + 1}]")
@@ -91,8 +91,6 @@ class BaseAgent(ABC):
     def get_final_result(self) -> str:
         pass
 
-
     @property
     def messages(self) -> list[dict]:
         return self.memory.messages
-
