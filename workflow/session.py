@@ -27,7 +27,6 @@ class Session:
             for task in group:
                 logger.info(f"   🟡 Launching task for {task.get_agent_name()} → '{task.content}'")
 
-            # 👇 真正并发执行
             results = await asyncio.gather(*[
                 self._run_single_task(task) for task in group
             ])
